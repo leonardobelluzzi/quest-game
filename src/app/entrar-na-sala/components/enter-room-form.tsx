@@ -19,13 +19,37 @@ export function EnterRoomForm() {
   const router = useRouter();
   const { user, isLoading } = useAuth();
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    const idUser = userData.id;
 
     if (!roomCode) {
       setErrorMessage("O campo código da sala é obrigatório");
       return;
     }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/quest/v1/joinGame`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idUser, roomCode }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Erro ao realizar criacao da sala");
+    }
+
+    const responseGame = await response.json();
+      const { idFormat, gameStatus, idPlayerOne, idPlayerTwo } = responseGame; // Extrai todos os campos do objeto JSON
+
+      router.push(`/${idFormat}/sala-de-espera`);
+
 
     router.push(`/${roomCode}/sala-de-espera`);
   }

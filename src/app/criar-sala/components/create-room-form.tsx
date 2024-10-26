@@ -18,16 +18,32 @@ export function CreateRoomForm() {
   const router = useRouter();
   const { user, isLoading } = useAuth();
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!nickname) {
-      setErrorMessage("O campo apelido é obrigatório");
-      return;
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    const idUser = userData.id;
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/quest/v1/createGame`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idUser }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Erro ao realizar criacao da sala");
     }
 
-    const randomIdAlphanumeric = Math.random().toString(36).slice(2);
-    router.push(`/${randomIdAlphanumeric}/sala-de-espera`);
+    const responseGame = await response.json();
+      const { idFormat, gameStatus, idPlayerOne, idPlayerTwo } = responseGame; // Extrai todos os campos do objeto JSON
+
+      router.push(`/${idFormat}/sala-de-espera`);
+
   }
 
   return (
