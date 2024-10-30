@@ -4,8 +4,11 @@ export type Game = {
   idPlayerTwo: number;
   pointPlayerOne: number | null;
   pointPlayerTwo: number | null;
+  playerOneFinishTime: number;
+  playerTwoFinishTime: number;
   questions: Question[];
   idFormat: string;
+  userWinner: number | null;
 }
 
 export type Question = {
@@ -15,8 +18,8 @@ export type Question = {
   answers: Answer[];
 }
 
-export interface Answer {
+export type Answer ={
   id: number;
   text: string;
-  isCorrect: boolean;
+  correct: boolean;
 }

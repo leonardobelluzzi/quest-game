@@ -22,25 +22,26 @@ export function ButtonAlternative({ borderColor , textAlternative, roomId, quest
     const idUser = userData.id;
 
     const router = useRouter();
-
-    if (correctAlternative && gameData && gameData.pointPlayerOne !== null){
-
-        if (idUser === gameData.idPlayerOne){
-            gameData.pointPlayerOne += valorAposta;
-        } else {
-            gameData.pointPlayerTwo += valorAposta;
-        }
-
-    }
-
+    
     const handleClick = async () => {
       try {
+
+        if (correctAlternative && gameData && gameData.pointPlayerOne !== null){
+
+            if (idUser === gameData.idPlayerOne){
+                gameData.pointPlayerOne += valorAposta;
+            } else {
+                gameData.pointPlayerTwo += valorAposta;
+            }
+
+        }
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quest/v1/saveGame`, {
-          method: 'POST',
+          method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ gameData }),
+          body: JSON.stringify( gameData ),
         });
   
         if (!response.ok) {
@@ -53,9 +54,21 @@ export function ButtonAlternative({ borderColor , textAlternative, roomId, quest
       } catch (error) {
         console.error('Error saving game:', error);
       }
-    };
+      if (questionId == 5) {
+
+        const response = fetch(`${process.env.NEXT_PUBLIC_API_URL}/quest/v1/finishGame/${idUser}`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify( gameData ),
+        });
   
-    
+        router.push(`/${roomId}/sala-de-espera`);
+      }
+  
+    }; 
+        
     return(
         <Button
             style={{

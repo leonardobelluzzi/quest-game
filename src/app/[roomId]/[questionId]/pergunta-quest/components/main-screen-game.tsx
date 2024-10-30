@@ -5,6 +5,8 @@ import { ButtonAlternative } from "./button-alternative";
 import { Game, Question } from "../question";
 import { useRouter } from "next/navigation";
 
+
+
 interface ScreenQuestionProps {
 
   roomId: string;
@@ -58,10 +60,14 @@ export function ScreenQuestion({ roomId , questionId}: ScreenQuestionProps) {
             {gameData?.questions[questionId].text}
 
               <div className = "flex flex-col gap-4 items-center">
-                <ButtonAlternative borderColor={corPergunta} textAlternative={gameData?.questions[questionId].answers[0].text || ''} roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[0].isCorrect}></ButtonAlternative>
-                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[1].text || ''} roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[0].isCorrect}></ButtonAlternative>
-                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[2].text || ''} roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[0].isCorrect}></ButtonAlternative>
-                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[3].text || ''} roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[0].isCorrect}></ButtonAlternative>
+                <ButtonAlternative borderColor={corPergunta} textAlternative={gameData?.questions[questionId].answers[0].text || ''}
+            roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[0].correct}></ButtonAlternative>
+                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[1].text || ''} 
+                  roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[1].correct}></ButtonAlternative>
+                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[2].text || ''} 
+                  roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[2].correct}></ButtonAlternative>
+                <ButtonAlternative borderColor = {corPergunta} textAlternative = {gameData?.questions[questionId].answers[3].text || ''} 
+                  roomId={roomId} questionId={questionId} gameData={gameData} valorAposta={1} correctAlternative={gameData?.questions[questionId].answers[3].correct}></ButtonAlternative>
            </div> 
         </div>
 
