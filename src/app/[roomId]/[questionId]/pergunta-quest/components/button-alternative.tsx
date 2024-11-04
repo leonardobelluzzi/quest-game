@@ -34,25 +34,34 @@ export function ButtonAlternative({
     }
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/quest/v1/saveGame`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ gameData: game }),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to save game");
+      if (questionId > 4) {
+
+          try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quest/v1/finishGame/${userId}`, {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(game),
+            });
+      
+            if (response.ok) {
+              router.push(`/${roomId}/resultado`);
+            } else {
+              console.error('Error saving game:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Error saving game:', error);
+          }
+   
+      }else{
+
+        // go to next question after 2 seconds
+        setTimeout(() => {
+          router.push(`/${roomId}/${Number(questionId) + 1}/pergunta-quest`);
+        }, 500);
       }
-
-      // go to next question after 2 seconds
-      setTimeout(() => {
-        router.push(`/${roomId}/${Number(questionId) + 1}/pergunta-quest`);
-      }, 2000);
     } catch (error) {
       console.error("Error saving game:", error);
     }

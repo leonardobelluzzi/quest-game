@@ -13,6 +13,7 @@ export type Game = {
   pointPlayerTwo: number | null;
   questions: Question[];
   idFormat: string;
+  userWinner: number | null;
 }
 
 export type Question = {
